@@ -1,7 +1,7 @@
 import './randomChar.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
 import { useState, useEffect, useRef} from 'react';
-import MarvelService from '../services/MarvelService';
+import useMarvelService from '../services/MarvelService';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 
@@ -14,15 +14,8 @@ const RandomChar = () => {
         homepage: null,
         wiki: null,
     });
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
+    const {loading, error, getCharacter, clearError} = useMarvelService();
     const tryButton = useRef(null);
-
-    const toggleTry = (state) => {
-        tryButton.current.disabled = state;
-    }
-
-    const marvelService = MarvelService();
 
     useEffect(() => {
         updateChar();
@@ -32,25 +25,23 @@ const RandomChar = () => {
         loading ? toggleTry(true) : toggleTry(false);
     }, [loading])
 
+
+    const toggleTry = (state) => {
+        tryButton.current.disabled = state;
+    }
+
     const updateChar = () => {
-        setError(false);
-        onCharLoading().then(onCharLoaded).catch(onError)
+        clearError();
+        onCharLoading().then(onCharLoaded)
     }
 
     const onCharLoading = async () => {
-        setLoading(true);
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
-        return await marvelService.getCharacter(id)
+        return await getCharacter(id)
     }
 
     const onCharLoaded = (char) => {
-        setLoading(false);
         setRandomCharacter(char);
-    }
-
-    const onError = () => {
-        setLoading(false)
-        setError(true);
     }
 
     return (

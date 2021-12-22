@@ -28,7 +28,11 @@
             object-fit: cover;
             transform: translate(-15px, -15px);
         }
-        &_selected {
+        &:hover{
+            transform: translateY(-8px);
+        }
+        &:focus{
+            outline: unset;
             box-shadow: 0 5px 20px $main-color;
             transform: translateY(-8px);
         }

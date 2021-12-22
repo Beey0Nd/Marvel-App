@@ -1,6 +1,10 @@
+@import '../../style/variables.scss';
+
 .comics {
-    &__list {
-        margin-top: 45px;
+    &__list button {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
     &__grid {
         display: grid;
@@ -29,8 +33,13 @@
             color: rgba(0, 0, 0, 0.6);
             text-transform: uppercase;
         }
-        &:hover {
-            transform: translateY(-5px);
+        &:hover{
+            transform: translateY(-8px);
+        }
+        &:focus{
+            outline: unset;
+            box-shadow: 0 5px 20px $main-color;
+            transform: translateY(-8px);
         }
     }
 }

@@ -1,0 +1,24 @@
+@import '../../style/variables.scss';
+
+.comics {
+    &__banner {
+        height: 100px;
+        padding: 0 25px 0 45px;
+        display: flex;
+        background: #232222;
+        margin-bottom: 45px;
+        align-items: center;
+    }
+    &__avengers{
+        margin-right: 84px;
+    }
+    &__avengers-logo{
+        margin-left: auto;
+    }
+    &__info{
+        max-height: 64px;
+        align-self: center;
+        color: #FFFFFF;
+    }
+}
+

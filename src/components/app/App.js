@@ -1,35 +1,34 @@
-import AppHeader from "../appHeader/AppHeader";
-import RandomChar from "../randomChar/RandomChar";
-import CharList from "../charList/CharList";
-import CharInfo from "../charInfo/CharInfo";
-import ErrorBoundary from "../errorBoundary/ErrorBoundary";
-
-import decoration from '../../resources/img/vision.png';
 import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+
+import AppHeader from "../appHeader/AppHeader";
+import Characters from "../../pages/Characters";
+import Comics from "../../pages/Comics";
+import Page404 from "../page404/Page404";
 
 const App = () => {
     const [charList, setCharList] = useState([]);
     const [currentChar, setCurrentChar] = useState(null);
     return (
-        <div className="app">
-            <AppHeader/>
-            <main>
-                <RandomChar/> 
-                <div className="char__content">
-                    <ErrorBoundary>
-                        <CharList 
-                        charList={charList}
-                        setCharList={setCharList}
-                        setCurrentChar={setCurrentChar}
-                        /> 
-                    </ErrorBoundary>
-                    <ErrorBoundary>
-                        <CharInfo charList={charList} currentChar={currentChar}/>
-                    </ErrorBoundary>
-                </div>
-                <img className="bg-decoration" src={decoration} alt="vision"/>
-            </main>
-        </div>
+        <Router>
+            <div className="app">
+                <AppHeader/>
+                <main>
+                    <Routes>
+                        <Route path="/" element={
+                            <Characters 
+                            charList={charList} 
+                            setCharList={setCharList}
+                            currentChar={currentChar}
+                            setCurrentChar={setCurrentChar}
+                            />}
+                        />
+                        <Route path="/comics" element={<Comics/>}/>
+                        <Route path="*" element={<Page404/>}/>
+                    </Routes>
+                </main>
+            </div>
+        </Router>
     )
 }
 

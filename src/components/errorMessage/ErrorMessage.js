@@ -1,9 +1,9 @@
 import error from "./error.gif";
 
-function ErrorMessage() {
+function ErrorMessage({style={width: "100%"}}) {
     return (
         <>
-            <img style={{width: "100%"}} src={error} alt="Error" />
+            <img style={style} src={error} alt="Error" />
         </>
     )
 }

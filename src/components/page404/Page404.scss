@@ -1,0 +1,30 @@
+@import "../../style/variables.scss";
+
+.page404__no-page {
+    padding: 15px;
+    font-size: 25px;
+    display: flex;
+    color: white;
+    align-items: center;
+    border-radius: 5px;
+}
+
+
+.hop {
+    animation: 3s infinite 1s hop;
+}
+
+@keyframes hop {
+    0% {
+        transform: rotateZ(0deg);
+    }
+    15% {
+        transform: rotateZ(10deg);
+    }
+    30% {
+        transform: rotateZ(-10deg);
+    }
+    60% {
+        transform: rotateZ(0deg);
+    }
+}
