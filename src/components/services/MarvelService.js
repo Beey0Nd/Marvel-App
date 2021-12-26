@@ -25,13 +25,18 @@ function useMarvelService() {
         }
     }
 
-    const _transformComics = (comics) => {
-        const {thumbnail, title, urls, prices} = comics;
+    const _transformComics = (comic) => {
+        const {id, thumbnail, title, /*urls, */prices, pageCount, description} = comic;
+        const language = comic.textObjects.language || "en-us";
 
         return {
             thumbnail: `${thumbnail.path}.${thumbnail.extension}`, 
+            id,
             title, 
-            url: urls[0].url, 
+            description: description !== "" ? description : "No description for this comic",
+            pages: pageCount,
+            language,
+            //url: urls[0].url, 
             price: prices[0].price == 0 ? "NOT AVAILABLE" : prices[0].price
         }
     }
@@ -39,6 +44,11 @@ function useMarvelService() {
     const getAllComics = async (offset = 0) => {
         const res = await request(`https://gateway.marvel.com:443/v1/public/comics?limit=8&offset=${offset}&apikey=794f72789e4da961747307dfea703504`);
         return res.data.results.map(_transformComics);
+    }
+
+    const getComic = async (id) => {
+        const res = await request(`https://gateway.marvel.com:443/v1/public/comics/${id}?apikey=794f72789e4da961747307dfea703504`);
+        return _transformComics(res.data.results[0]);
     }
 
     const getAllCharacters = async (offset = _baseOffset, limit = 9) => {
@@ -51,7 +61,7 @@ function useMarvelService() {
         return _transformCharacter(res.data.results[0]);
     }
 
-    return {loading, error, clearError, getAllCharacters, getCharacter, getAllComics};
+    return {loading, error, clearError, getAllCharacters, getCharacter, getAllComics, getComic};
 }
 
 export default useMarvelService;

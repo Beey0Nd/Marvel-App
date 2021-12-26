@@ -1,21 +1,17 @@
 import './comicsList.scss';
 import useMarvelService from '../services/MarvelService';
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 
 const ComicsList = () => {
     const [comicsList, setComicsList] = useState([]);
-    const [offset, setOffset] = useState(0);
+    const [offset, setOffset] = useState(50);
     const {getAllComics} = useMarvelService();
-
 
     useEffect(() => {
         fetchComicsList(false);
     },[])
 
-    const handleClick = (e) => {
-        e.preventDefault();
-        e.currentTarget.focus()
-    }
     const fetchComicsList = (more) => {
         getAllComics(offset).then(newComics => onComicsLoaded(newComics, more))
     }
@@ -27,26 +23,11 @@ const ComicsList = () => {
     const onMore = () => {
         fetchComicsList(true);
     }
-
-    const renderItems = (comicsList) => {
-        return comicsList.map(item => {
-            const {thumbnail, title, price, url} = item; 
-            return (
-                <li onClick={handleClick} tabIndex="0" className="comics__item">
-                    <a tabIndex="-1" href={url}>
-                        <img tabIndex="-1" src={thumbnail} alt={title} className="comics__item-img"/>
-                        <div tabIndex="-1" className="comics__item-name">{title}</div>
-                        <div tabIndex="-1" className="comics__item-price">{price === "NOT AVAILABLE" ? price : `${price }$`}</div>
-                    </a>
-                </li>    
-            )
-        })
-    }
-    const items = renderItems(comicsList);
+    console.log("render")
     return (
         <div className="comics__list">
             <ul className="comics__grid">
-                {items}
+                <List comicsList={comicsList}/>
             </ul>
             <button className="button button__main button__long">
                 <div className="inner" onClick={onMore}>load more</div>
@@ -54,5 +35,34 @@ const ComicsList = () => {
         </div>
     )
 }
+
+const List = memo(({comicsList}) => {
+    const renderItems = () => {
+        const res = comicsList.map(item => {
+            const {id, thumbnail, title, price/*, url*/} = item; 
+
+            return (
+                <li key={id} onClick={handleClick} tabIndex="0" className="comics__item">
+                    <Link tabIndex="-1" to={`/comics/${id}`}>
+                        <img tabIndex="-1" src={thumbnail} alt={title} className="comics__item-img"/>
+                        <div tabIndex="-1" className="comics__item-name">{title}</div>
+                        <div tabIndex="-1" className="comics__item-price">{price === "NOT AVAILABLE" ? price : `${price }$`}</div>
+                    </Link>
+                </li>    
+            )
+        })
+        return res;
+    }
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        e.currentTarget.focus()
+    }
+
+    return (
+        renderItems()
+    )
+})
+
 
 export default ComicsList;

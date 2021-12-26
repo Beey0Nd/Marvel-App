@@ -1,14 +1,14 @@
-import { useState, useEffect} from 'react';
+import { useState, useEffect, useContext, memo } from 'react';
 import useMarvelService from '../services/MarvelService';
 import Spinner from '../spinner/Spinner';
 
 import './charList.scss';
 
+import { AppContext } from '../app/App';
 
-
-const CharList = ({setCurrentChar, charList, setCharList}) => {
+const CharList = () => {
+    const {charList, setCharList, setCurrentChar} = useContext(AppContext);
     const [offset, setOffset] = useState(1500);
-
     const {loading, getAllCharacters} = useMarvelService();
 
     useEffect(() => {
@@ -24,6 +24,7 @@ const CharList = ({setCurrentChar, charList, setCharList}) => {
     } 
 
     const onListLoading = async () => {
+        console.log("fetch")
         return await getAllCharacters(offset);
     }
 
@@ -38,19 +39,6 @@ const CharList = ({setCurrentChar, charList, setCharList}) => {
         fetchCharList(true);
     }
 
-    const render = (charList) => {
-        const content = charList.map((item) => {
-            const {name, thumbnail} = item;
-            return (
-                <li tabIndex={0} className="char__item" key={item.id}
-                onClick={() => setCurrentChar(name)}>
-                    <img src={thumbnail} alt={name}/>
-                    <div className="char__name">{name}</div>
-                </li>
-            )
-        });
-        return content;
-    }
     const moreButton = offset >= 1559 ? 
     <button className="button button__main button__long-no-more">
         <div className="inner">No more characters left</div>
@@ -60,18 +48,29 @@ const CharList = ({setCurrentChar, charList, setCharList}) => {
         <div className="inner">load more</div>
     </button>;
 
-    const items = render(charList);
-
     return (
         <div className="char__list">
             {moreButton}
             <ul className="char__grid">
-                {items}
+                <List charList={charList} setCurrentChar={setCurrentChar}/>
             </ul>
             {loading ? <Spinner/> : null}
             {moreButton}
         </div>
     )
 }
+
+const List = memo(({charList, setCurrentChar}) => {
+    return charList.map((item) => {
+        const {name, thumbnail} = item;
+        return (
+            <li tabIndex={0} className="char__item" key={item.id}
+            onClick={() => setCurrentChar(name)}>
+                <img src={thumbnail} alt={name}/>
+                <div className="char__name">{name}</div>
+            </li>
+        )
+    }); 
+})
 
 export default CharList;

@@ -1,16 +1,22 @@
 import './charInfo.scss';
 import Skeleton from "../skeleton/Skeleton";
 
-const CharInfo = ({charList, currentChar}) => {
+import { AppContext } from '../app/App';
+import { useContext } from 'react';
+
+const CharInfo = () => {
+    const {charList, currentChar} = useContext(AppContext);
+
     const renderList = () => {
-        
-        const char = (() => {
-            for(let i = 0; i < charList.length; i++) {
-                if(charList[i].name === currentChar) return charList[i]
-            } 
-        })();
-        const {name, description, thumbnail, homepage, wiki, comics} = char;        
-        
+        const {
+            name, 
+            description, 
+            thumbnail, 
+            homepage, 
+            wiki, 
+            comics
+        } = charList.find(item => item.name === currentChar)
+
         const generateComics = (comics) => {
             if (comics.length === 0) return "No data on this character";
 

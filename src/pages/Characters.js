@@ -5,20 +5,16 @@ import ErrorBoundary from "../components/errorBoundary/ErrorBoundary";
 
 import decoration from '../resources/img/vision.png';
 
-const Characters = ({charList, setCharList, currentChar, setCurrentChar}) => {
+const Characters = () => {
     return(
         <>
             <RandomChar/> 
             <div className="char__content">
                 <ErrorBoundary>
-                    <CharList 
-                    charList={charList}
-                    setCharList={setCharList}
-                    setCurrentChar={setCurrentChar}
-                    /> 
+                    <CharList/> 
                 </ErrorBoundary>
                 <ErrorBoundary>
-                    <CharInfo charList={charList} currentChar={currentChar}/>
+                    <CharInfo/>
                 </ErrorBoundary>
             </div>
             <img className="bg-decoration" src={decoration} alt="vision"/>
