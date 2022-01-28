@@ -54,11 +54,10 @@ const RandomChar = () => {
                 </div>
                 <div className="randomchar__static">
                     <p className="randomchar__title">
-                        Random character for today!<br/>
-                        Do you want to get to know him better?
+                        Randomize a character!<br/>
                     </p>
                     <p className="randomchar__title">
-                        Or choose another one
+                        Click to show one
                     </p>
                     <button ref={tryButton} className="button button__main"
                     onClick={updateChar}>

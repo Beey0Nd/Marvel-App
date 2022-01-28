@@ -1,44 +1,48 @@
 import './comicsList.scss';
-import useMarvelService from '../services/MarvelService';
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useCallback, useState, useRef } from "react";
 import { Link } from 'react-router-dom';
+import useMarvelService from '../services/MarvelService';
+import Spinner from '../spinner/Spinner';
+// import { Transition } from 'react-transition-group';
+// import withList from '../HOCs/withList'; => отрефакторить CharList и ComicList
 
 const ComicsList = () => {
-    const [comicsList, setComicsList] = useState([]);
-    const [offset, setOffset] = useState(50);
-    const {getAllComics} = useMarvelService();
+    const [list, setList] = useState([]);
+    let {current: offset} = useRef(50)
+    const {getAllComics, loading} = useMarvelService();
 
     useEffect(() => {
-        fetchComicsList(false);
+        fetchList(false);
     },[])
 
-    const fetchComicsList = (more) => {
-        getAllComics(offset).then(newComics => onComicsLoaded(newComics, more))
+    const fetchList = (more) => {
+        getAllComics(offset).then(newList => onLoaded(newList, more))
     }
-    const onComicsLoaded = (newComics, more) => {
-        more ? setComicsList(comicsList => [...comicsList, ...newComics]) : setComicsList(newComics);
-        setOffset(offset => offset + 8)
+    const onLoaded = (newList, more) => {
+        more ? setList(list => [...list, ...newList]) : setList(newList);
+        offset = offset + 8;
     }
 
-    const onMore = () => {
-        fetchComicsList(true);
-    }
-    console.log("render")
+    const onMore = useCallback(() => {
+        fetchList(true);
+    }, [])
+
     return (
         <div className="comics__list">
             <ul className="comics__grid">
-                <List comicsList={comicsList}/>
+                <List comicsList={list}/>
             </ul>
-            <button className="button button__main button__long">
+            {loading ? <Spinner/> : null}
+            {!loading ? <button className="button button__main button__long">
                 <div className="inner" onClick={onMore}>load more</div>
-            </button>
+            </button> : null}
         </div>
     )
 }
 
 const List = memo(({comicsList}) => {
     const renderItems = () => {
-        const res = comicsList.map(item => {
+        return comicsList.map(item => {
             const {id, thumbnail, title, price/*, url*/} = item; 
 
             return (
@@ -46,12 +50,11 @@ const List = memo(({comicsList}) => {
                     <Link tabIndex="-1" to={`/comics/${id}`}>
                         <img tabIndex="-1" src={thumbnail} alt={title} className="comics__item-img"/>
                         <div tabIndex="-1" className="comics__item-name">{title}</div>
-                        <div tabIndex="-1" className="comics__item-price">{price === "NOT AVAILABLE" ? price : `${price }$`}</div>
+                        <div tabIndex="-1" className="comics__item-price">{price}</div>
                     </Link>
                 </li>    
             )
         })
-        return res;
     }
 
     const handleClick = (e) => {
@@ -64,5 +67,6 @@ const List = memo(({comicsList}) => {
     )
 })
 
+// const ComicsList = withList(memo(BaseComicsList), "getAllComics", 100, 8)
 
 export default ComicsList;

@@ -1,3 +1,5 @@
+import Helmet from "react-helmet";
+
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import { Link } from "react-router-dom";
 import "./Page404.scss"
@@ -5,6 +7,13 @@ import "./Page404.scss"
 const Page404 = () => {
     return (
         <>
+            <Helmet>
+                <meta
+                    name="description"
+                    content="Not Found page"
+                />
+                <title>Not Found</title>
+            </Helmet>
             <div style={{boxShadow: "0 0 15px 0 black", justifyContent: "space-around"}} className="comics__banner">
                 <div className="page404__no-page">Sorry, this page doesn't exist</div>
                 <Link to="/" className="button button__main hop">

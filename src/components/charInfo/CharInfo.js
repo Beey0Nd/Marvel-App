@@ -2,10 +2,16 @@ import './charInfo.scss';
 import Skeleton from "../skeleton/Skeleton";
 
 import { AppContext } from '../app/App';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 const CharInfo = () => {
-    const {charList, currentChar} = useContext(AppContext);
+    const {charList, currentChar, setCurrentChar} = useContext(AppContext);
+
+    useEffect(() => {
+        return () => {
+            setCurrentChar(null);
+        }
+    }, [])
 
     const renderList = () => {
         const {

@@ -1,13 +1,15 @@
 @import '../../style/variables.scss';
 
 .char {
-    &__info {
-        padding: 25px;
-        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+    &__wrapper {
         position: sticky;
         top: 10px;
-        z-index: 5;
+    }
+    &__info {
+        padding: 25px;
+        box-shadow: $big-shadow;
         background-color: #fff;
+        margin-bottom: 30px;
         &-name {
             font-weight: bold;
             font-size: 22px;
