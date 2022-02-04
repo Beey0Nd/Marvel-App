@@ -1,0 +1,90 @@
+@import "../../style/variables.scss";
+
+.form {
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    box-shadow: $big-shadow;
+    background-color: #fff;
+    &__inner {
+        position: relative;
+        background-color: $grey;
+        line-height: 18px;
+        padding: 0 18px;
+        transition: none;
+        font-weight: initial;
+        &::before {
+            content: "";
+            border-color: $grey transparent;
+            border-style: solid;
+            border-width: 0 0 10px 10px;
+            display: block;
+            position: absolute;
+            left: 0;
+            top: -10px;
+            transition: none;
+        }
+        &::after {
+            border-color: $grey transparent;
+            border-style: solid;
+            border-width: 0 0 10px 10px;
+            content: "";
+            display: block;
+            position: absolute;
+            right: 0;
+            bottom: -10px;
+            transform: rotate(180deg);
+            transition: none;
+        }
+    }
+    &__desc{
+        margin-bottom: 15px;
+        font-weight: bold;
+        font-size: 18px;
+    }
+    &__search{
+        width: 100%;
+        max-width: 250px;
+        padding: 10px;
+        box-shadow: $shadow;
+        border: none;
+        &:focus{
+            outline: 1px solid $main-color;
+        }
+        &-wrapper{
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+    &-error{
+        background-color: $main-color;
+        color: white;
+        &:focus{
+            background-color: $main-color;
+            color: white;
+        }
+    }
+    &__response {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+        font-weight: bold;
+        a {
+            color: $white;
+            &::after {
+                background-color: $grey;
+            }
+            &::before {
+                background-color: $grey;
+            }
+            
+        }
+        &-success {
+            color: $success;
+        }
+        &-error {
+            color: $main-color;
+        }
+    }
+}
