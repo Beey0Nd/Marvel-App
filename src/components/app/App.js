@@ -2,6 +2,7 @@ import { useState, Suspense, lazy, createContext } from "react";
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 import AppHeader from "../appHeader/AppHeader";
+import Spinner from "../spinner/Spinner";
 
 const Characters = lazy(() => import("../../pages/Characters"));
 const SingleComic = lazy(() => import("../singleComic/SingleComic"));
@@ -27,20 +28,20 @@ const App = () => {
                 <div className="app">
                     <AppHeader/>
                     <main>
-                        <Suspense fallback={<div>Loading...</div>}>
+                        <Suspense fallback={<Spinner/>}>
                             <Routes>
-                                <Route path="*" element={
-                                    <Page404/>
-                                }/>
                                 <Route path="/" element={
                                     <Characters />}
                                 />
-                                <Route path="/:name" element={
+                                <Route path="/characters/:name" element={
                                     <SingleCharacter />}
                                 />
                                 <Route path="/comics" element={<Comics/>}/>
                                 <Route path="/comics/:comicId" element={
                                     <SingleComic/>
+                                }/>
+                                <Route path="*" element={
+                                    <Page404/>
                                 }/>
                             </Routes>  
                         </Suspense>

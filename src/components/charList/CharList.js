@@ -24,7 +24,6 @@ const CharList = () => {
     } 
 
     const onListLoading = async () => {
-        console.log("fetch")
         return await getAllCharacters(offset);
     }
 

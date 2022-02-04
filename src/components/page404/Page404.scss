@@ -1,14 +1,21 @@
 @import "../../style/variables.scss";
 
-.page404__no-page {
-    padding: 15px;
-    font-size: 25px;
-    display: flex;
-    color: white;
-    align-items: center;
-    border-radius: 5px;
+.not-found {
+    &__banner{
+        background-color: $dark;
+        color: $white;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+    &__no-page {
+        padding: 15px;
+        font-size: 25px;
+        display: flex;
+        align-items: center;
+        border-radius: 5px;
+    }
 }
-
 
 .hop {
     animation: 3s infinite 1s hop;

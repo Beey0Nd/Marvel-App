@@ -1,4 +1,4 @@
-import error from "./error.gif";
+import error from "../../resources/img/error.gif";
 
 function ErrorMessage({style={width: "100%"}}) {
     return (
