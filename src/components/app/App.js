@@ -17,20 +17,20 @@ const App = () => {
     const [currentChar, setCurrentChar] = useState(null);
     const [searchCharName, setSearchCharName] = useState(undefined);
     const [comicsList, setComicsList] = useState([]);
-
+    
     return (
         <Provider value={{
             charList, setCharList, 
             currentChar, setCurrentChar, 
             comicsList, setComicsList, 
             searchCharName, setSearchCharName}}>
-            <Router>
+            <Router basename={process.env.PUBLIC_URL}>
                 <div className="app">
                     <AppHeader/>
                     <main>
                         <Suspense fallback={<Spinner/>}>
                             <Routes>
-                                <Route path="/Marvel-App" element={
+                                <Route path="/" element={
                                     <Characters />}
                                 />
                                 <Route path="/characters/:name" element={
